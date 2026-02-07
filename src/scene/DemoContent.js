@@ -119,6 +119,15 @@ function addDepthCubes(scene) {
         { pos: [ 150, 100, -350], size: 38, hue: 0.40 },
         { pos: [-100, 180, -550], size: 46, hue: 0.25 },
         { pos: [ 250, -50, -750], size: 54, hue: 0.10 },
+        // Center of the room
+        { pos: [  30,   20, -400], size: 32, hue: 0.62 },
+        { pos: [ -60,   50, -450], size: 26, hue: 0.78 },
+        { pos: [  80,  -10, -350], size: 30, hue: 0.42 },
+        { pos: [ -20,   80, -500], size: 24, hue: 0.92 },
+        // Near the floor (floor at y=-120)
+        { pos: [  0,   -100, -400], size: 35, hue: 0.15 },
+        { pos: [-120,  -105, -300], size: 28, hue: 0.50 },
+        { pos: [ 180,   -95, -550], size: 40, hue: 0.88 },
         // Hanging from the ceiling (y near 380)
         { pos: [-350, 340, -200], size: 25, hue: 0.60 },
         { pos: [ 100, 320, -450], size: 32, hue: 0.80 },
