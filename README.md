@@ -4,6 +4,8 @@
 
 A browser-based head tracking implementation that creates a 3D parallax effect using webcam face detection and Three.js. Inspired by Johnny Lee's Wii Remote head tracking demo, but using only a standard webcam and JavaScript.
 
+![Head Tracking Demo](demo.gif)
+
 ## What This Does
 
 This application tracks your head position in real-time using your webcam and adjusts the 3D scene perspective accordingly. The screen becomes a "window" into a 3D world - as you move your head left/right/up/down or closer/farther, the perspective shifts naturally, creating the illusion of depth. Objects appear to "pop out" of the screen or recede behind it.
