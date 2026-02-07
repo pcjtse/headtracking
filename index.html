@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Head Tracking VR</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.182.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- Hidden video element for webcam feed -->
+  <video id="webcam" autoplay playsinline></video>
+
+  <!-- Three.js render target -->
+  <canvas id="canvas"></canvas>
+
+  <!-- Loading overlay -->
+  <div id="loading">
+    <div id="loading-text">Initializing...</div>
+  </div>
+
+  <!-- Debug overlay (toggle with 'D' key) -->
+  <div id="debug" class="hidden">
+    <div id="debug-stats"></div>
+    <canvas id="debug-canvas" width="160" height="120"></canvas>
+  </div>
+
+  <!-- Application entry point -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
