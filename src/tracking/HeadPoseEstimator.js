@@ -85,9 +85,9 @@ export class HeadPoseEstimator {
 
     // --- Lateral position (X, Y) ---
     // Normalised → mm, centred on screen.
-    // Webcam image is mirrored (selfie), so landmark.x already increases
-    // to the viewer's right — no additional flip needed.
-    let x = (nose.x - 0.5) * this._screenW;
+    // getUserMedia returns a non-mirrored image: the camera's left is the
+    // viewer's right.  Negate X so that moving right → positive x.
+    let x = (0.5 - nose.x) * this._screenW;
     let y = (0.5 - nose.y) * this._screenH; // Y flipped (cam Y is down)
 
     // --- Depth (Z) ---
