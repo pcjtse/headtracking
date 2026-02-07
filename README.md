@@ -1,3 +1,5 @@
+## This project is implemented with Claude Code Teams to demonstrate the research and implementation capability of Agent Swarms, with zero human intervention (other than manual testing to confirm that the code does indeed works) 
+
 # Head Tracking VR with JavaScript and Webcam
 
 A browser-based head tracking implementation that creates a 3D parallax effect using webcam face detection and Three.js. Inspired by Johnny Lee's Wii Remote head tracking demo, but using only a standard webcam and JavaScript.
