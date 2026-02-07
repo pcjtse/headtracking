@@ -1,4 +1,3 @@
-## This project is implemented with Claude Code Teams to demonstrate the research and implementation capability of Agent Swarms, with zero human intervention (other than manual testing to confirm that the code does indeed works) 
 
 # Head Tracking VR with JavaScript and Webcam
 
@@ -164,7 +163,7 @@ One-Euro filter with adaptive cutoff:
 
 **Concept**: Johnny Lee's Wii Remote head tracking (2007)
 **Math**: Robert Kooima's generalized perspective projection
-**Implementation**: Built by a team of AI agents (researcher, cv-specialist, graphics-engineer, perf-engineer)
+**Implementation**: Built by a team of AI agents (researcher, cv-specialist, graphics-engineer, perf-engineer) with Claude Code Teams
 
 ## References
 
