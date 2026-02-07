@@ -17,6 +17,7 @@ import { FaceTracker } from './tracking/FaceTracker.js';
 import { HeadPoseEstimator } from './tracking/HeadPoseEstimator.js';
 import { OffAxisCamera } from './projection/OffAxisCamera.js';
 import { SceneManager } from './scene/SceneManager.js';
+import { toggleTargetMode } from './scene/DemoContent.js';
 
 // ---------------------------------------------------------------------------
 // DOM references
@@ -176,6 +177,11 @@ function setupKeyboardShortcuts() {
         if (debugEl) {
           debugEl.classList.toggle('hidden', !CONFIG.debug.enabled);
         }
+        break;
+
+      case 't':
+        // Toggle between 3D objects and bullseye targets
+        toggleTargetMode();
         break;
 
       case 'f':

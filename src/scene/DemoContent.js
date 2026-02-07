@@ -7,9 +7,15 @@
  * Objects at z < 0  appear to recede *into* the screen.
  * Objects at z > 0  appear to float *in front of* the screen.
  * The z = 0 plane is the physical screen surface.
+ *
+ * Press 'T' to toggle between 3D objects and bullseye targets.
  */
 
 import * as THREE from 'three';
+
+/** Groups used for toggling between object modes */
+let objectsGroup = null;
+let targetsGroup = null;
 
 /**
  * Add demo objects to the given scene.
@@ -19,9 +25,28 @@ export function createDemoScene(scene) {
     addWindowFrame(scene);
     addGridFloor(scene);
     addGridWallsAndCeiling(scene);
-    addDepthCubes(scene);
-    addForegroundObjects(scene);
     addBackWall(scene);
+
+    // 3D objects (cubes, sphere, torus) — visible by default
+    objectsGroup = new THREE.Group();
+    addDepthCubes(objectsGroup);
+    addForegroundObjects(objectsGroup);
+    scene.add(objectsGroup);
+
+    // Bullseye targets — hidden by default
+    targetsGroup = new THREE.Group();
+    addTargets(targetsGroup);
+    targetsGroup.visible = false;
+    scene.add(targetsGroup);
+}
+
+/**
+ * Toggle between 3D objects and bullseye targets.
+ */
+export function toggleTargetMode() {
+    if (!objectsGroup || !targetsGroup) return;
+    objectsGroup.visible = !objectsGroup.visible;
+    targetsGroup.visible = !targetsGroup.visible;
 }
 
 /**
@@ -112,7 +137,7 @@ function addGridWallsAndCeiling(scene) {
 /**
  * Coloured cubes at increasing depths behind the screen.
  */
-function addDepthCubes(scene) {
+function addDepthCubes(group) {
     const cubes = [
         // Scattered around the room
         { pos: [-200,  20, -150], size: 30, hue: 0.55 },
@@ -150,14 +175,14 @@ function addDepthCubes(scene) {
         cube.rotation.x = 0.3;
         cube.rotation.y = 0.5 + i * 0.3;
 
-        scene.add(cube);
+        group.add(cube);
     });
 }
 
 /**
  * Objects in front of the screen plane — these "pop out" toward the viewer.
  */
-function addForegroundObjects(scene) {
+function addForegroundObjects(group) {
     // Red sphere
     const sphere = new THREE.Mesh(
         new THREE.SphereGeometry(18, 32, 32),
@@ -168,7 +193,7 @@ function addForegroundObjects(scene) {
         })
     );
     sphere.position.set(60, 30, 60);
-    scene.add(sphere);
+    group.add(sphere);
 
     // Small green torus
     const torus = new THREE.Mesh(
@@ -181,7 +206,7 @@ function addForegroundObjects(scene) {
     );
     torus.position.set(-50, 50, 40);
     torus.rotation.x = Math.PI / 4;
-    scene.add(torus);
+    group.add(torus);
 }
 
 /**
@@ -198,4 +223,68 @@ function addBackWall(scene) {
     const wall = new THREE.Mesh(geometry, material);
     wall.position.set(0, 130, -901);
     scene.add(wall);
+}
+
+// ---------------------------------------------------------------------------
+// Bullseye targets (Johnny Lee style)
+// ---------------------------------------------------------------------------
+
+/**
+ * Draw a bullseye pattern on a canvas and return it as a texture.
+ */
+function createBullseyeTexture(rings) {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    const cx = size / 2;
+    const cy = size / 2;
+    const maxR = size / 2;
+    const colors = ['#cc2222', '#ffffff', '#cc2222', '#ffffff', '#cc2222'];
+    const bandCount = rings ?? colors.length;
+
+    for (let i = 0; i < bandCount; i++) {
+        const r = maxR * (1 - i / bandCount);
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.fill();
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+}
+
+/**
+ * Place bullseye targets at various depths throughout the room.
+ */
+function addTargets(group) {
+    const texture = createBullseyeTexture(5);
+
+    const targets = [
+        // Behind the screen — various depths and positions
+        { pos: [   0,   30, -200], radius: 40 },
+        { pos: [-180,   80, -400], radius: 50 },
+        { pos: [ 200,  -20, -350], radius: 35 },
+        { pos: [ -50,  200, -600], radius: 55 },
+        { pos: [ 300,  150, -700], radius: 45 },
+        { pos: [-250, -60,  -500], radius: 40 },
+        // In front of the screen — "pop out" toward the viewer
+        { pos: [  80,   40,   50], radius: 25 },
+        { pos: [ -70,   60,   30], radius: 20 },
+    ];
+
+    targets.forEach(({ pos, radius }) => {
+        const geo = new THREE.CircleGeometry(radius, 48);
+        const mat = new THREE.MeshBasicMaterial({
+            map: texture,
+            side: THREE.DoubleSide,
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(pos[0], pos[1], pos[2]);
+        group.add(mesh);
+    });
 }
